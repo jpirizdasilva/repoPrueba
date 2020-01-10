@@ -1,7 +1,9 @@
 require('./config/config')
-
-const express = require('express');
+const express = require('express')
 const app = express();
+
+
+const mongoose = require('mongoose')
 let bodyParser = require('body-parser')
  
  //utilizamos para obtener los datos de un form
@@ -9,39 +11,18 @@ let bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false })) 
 // parse application/json
 app.use(bodyParser.json())
-//jwnecjwe
 
-app.get('/usuario', function (req, res) {
-    res.json('get usuario');
-});
 
-//crear
-app.post('/usuario', function (req, res) {
+app.use(require('./routes/usuario'))
 
-    if(req.body.nombre===undefined){
 
-        res.status(400).json({
-            ok:false,
-            mensaje:'El nombre es necesario'
-        })
+mongoose.connect(process.env.URL_DB,
+ {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true }, (err, res)=>{
 
-    }else{
-        let data = req.body
-        res.json(data); 
-    }
-   
-});
+    if(err) throw err;
 
-//actualizar
-app.put('/usuario/:id', function (req, res) {
-
-    let id = req.params.id    
-    res.json({id});
-});
-
-app.delete('/usuario', function (req, res) {
-    res.json('delete usuario');
-});
+    console.log("base de datos ONLINE!!")
+})
 
 app.listen(process.env.PORT, function () {
     console.log(`Example app listening on port`, process.env.PORT);
