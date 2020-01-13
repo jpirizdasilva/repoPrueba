@@ -3,14 +3,14 @@ const app = express();
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/usuario')
 const _ = require('underscore')
-
+const verificaToken=require('../middlewares/autenticacion')
 
 //---------------------------------------------------------------------------------------------------------
         //GET: 
 /* Regresa los usuarios que esten con el campo estado: true, ya que implica que son los que se encuentran
 activos para su uso, los que poseen estado:false se encuentran estado de borrado  */
 //---------------------------------------------------------------------------------------------------------
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificaToken, function (req, res) {
 
     let desde = req.query.desde || 0 ; //obtenemos el parametro del url
     desde = Number(desde);
