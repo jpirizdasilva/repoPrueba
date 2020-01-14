@@ -1,12 +1,12 @@
+//=======================================================================
+// MIDDLEWARE PARA VERIFICAR TOKEN
+//=======================================================================
+
 const jwt = require('jsonwebtoken') 
 
-let verificaToken = (req, res, next)=>{
-
-   
+let verificaToken = (req, res, next)=>{   
 
     let token = req.get('token')
-
-    console.log('semilla: ' , process.env.SEMILLA_TOKEN)
 
     jwt.verify(token, process.env.SEMILLA_TOKEN, (err, decoded)=>{
 
@@ -17,8 +17,7 @@ let verificaToken = (req, res, next)=>{
                 err
             })
         }
-        console.log('usuario encode: ', req.usuario)
-        console.log('usuario decoded: ', decoded.usuario)
+        
         //pasamos al request el usuario decodificado
         req.usuario = decoded.usuario
 
@@ -26,4 +25,25 @@ let verificaToken = (req, res, next)=>{
 
     })
 }
-module.exports= verificaToken
+
+
+
+//=======================================================================
+// MIDDLEWARE PARA VERIFICAR ROL DE ADMINISTRADOR
+//=======================================================================
+
+let verificaAdminRole = (req, res, next)=>{
+
+    let usuario = req.usuario
+
+    if(usuario.role==='ADMIN_ROLE'){
+        next()
+    }else{
+        return res.json({
+            ok: false,
+            message:'El usuario no es administrador'
+        })
+    }
+}
+
+module.exports= {verificaToken, verificaAdminRole}

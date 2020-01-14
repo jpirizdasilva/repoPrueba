@@ -3,7 +3,7 @@ const app = express();
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/usuario')
 const _ = require('underscore')
-const verificaToken=require('../middlewares/autenticacion')
+const {verificaToken, verificaAdminRole} = require('../middlewares/autenticacion')
 
 //---------------------------------------------------------------------------------------------------------
         //GET: 
@@ -46,7 +46,7 @@ app.get('/usuario', verificaToken, function (req, res) {
 
 
 //crear
-app.post('/usuario', function (req, res) {
+app.post('/usuario',  function (req, res) {
 
     let body = req.body
 
@@ -78,7 +78,7 @@ app.post('/usuario', function (req, res) {
 
 
 //actualizar
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdminRole], function (req, res) {
 
     let id = req.params.id  
 
@@ -105,7 +105,7 @@ app.put('/usuario/:id', function (req, res) {
 
 
 //ELIMINAR UN USUARIO DE LA BBDD
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRole], function (req, res) {
     
     let id = req.params.id  
     // Usuario.findByIdAndDelete(id, (err, usuarioBorrado)=>{

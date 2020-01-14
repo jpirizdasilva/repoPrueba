@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "12.14.0"
+    "node": "12.14.1"
   },
   "scripts": {
     "start": "node server/server.js",
@@ -19,6 +19,7 @@
     "mongoose": "^5.8.3",
     "mongoose-unique-validator": "^2.0.3",
     "node-pre-gyp": "^0.14.0",
-    "underscore": "^1.9.1"
+    "underscore": "^1.9.1",
+    "update": "^0.7.4"
   }
 }

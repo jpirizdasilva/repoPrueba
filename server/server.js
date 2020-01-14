@@ -1,8 +1,6 @@
 require('./config/config')
 const express = require('express')
 const app = express();
-
-
 const mongoose = require('mongoose')
 let bodyParser = require('body-parser')
  
@@ -15,7 +13,7 @@ app.use(bodyParser.json())
 //configuracion global de rutas
 app.use(require('./routes/index'))
 
-console.log('BBDD conectada: ',process.env.URL_DB)
+
 mongoose.connect(process.env.URL_DB,
  {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true }, (err, res)=>{
 
